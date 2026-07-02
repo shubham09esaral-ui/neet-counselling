@@ -1,8 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -13,6 +11,81 @@ datasource db {
 }
 
 model Counselling {
-  id   Int    @id
-  name String
+  id                  Int                   @id
+  name                String
+  neetCounsellingData NeetCounsellingData[]
+  allotments          AllotmentsTableData[]
+}
+
+model NeetCounsellingData {
+  id                Int                   @id
+  counsellingId     Int                   @map("counselling_id")
+  counselling       Counselling           @relation(fields: [counsellingId], references: [id])
+
+  state             String?
+  category          String?
+
+  institute         Json?
+  course            Json?
+  quota             Json?
+
+  feeId             Int?                  @map("fee_id")
+  fee               String?
+  stipendYear1      String?               @map("stipend_year_1")
+  bondYears         String?               @map("bond_years")
+  bondPenalty       String?               @map("bond_penalty")
+  beds              String?
+  choiceListCount   Int?                  @map("choice_list_count")
+
+  cr2025Round1      Json?                 @map("cr_2025_1")
+  cr2025Round2      Json?                 @map("cr_2025_2")
+  cr2025Round3      Json?                 @map("cr_2025_3")
+  cr2025Round4      Json?                 @map("cr_2025_4")
+  cr2025Round5      Json?                 @map("cr_2025_5")
+  cr2025Round6      Json?                 @map("cr_2025_6")
+
+  isProceed         Boolean               @default(false) @map("is_proceed")
+  proceededRounds   Int                   @default(0) @map("proceeded_rounds")
+
+  createdAt         DateTime              @default(now()) @map("created_at")
+  updatedAt         DateTime              @updatedAt @map("updated_at")
+
+  allotments        AllotmentsTableData[]
+
+  @@index([counsellingId])
+  @@index([counsellingId, isProceed])
+  @@index([state])
+  @@map("neet_counselling_data")
+}
+
+model AllotmentsTableData {
+  id                    Int                 @id
+  neetCounsellingDataId Int                 @map("neet_counselling_data_id")
+  neetCounsellingData   NeetCounsellingData @relation(fields: [neetCounsellingDataId], references: [id])
+  counsellingId         Int                 @map("counselling_id")
+  counselling           Counselling         @relation(fields: [counsellingId], references: [id])
+
+  session               String?
+  round                 String?
+  rank                  Int?
+  aiRank                Int?                @map("ai_rank")
+  counsellingRank       Int?                @map("counselling_rank")
+
+  state                 String?
+  category              String?
+
+  institute             Json?
+  course                Json?
+  quota                 Json?
+
+  inserviceCandidate    Boolean?            @map("inservice_candidate")
+  candidateFlag         String?             @map("candidate_flag")
+
+  createdAt             DateTime            @default(now()) @map("created_at")
+  updatedAt             DateTime            @updatedAt @map("updated_at")
+
+  @@index([neetCounsellingDataId])
+  @@index([counsellingId])
+  @@index([round, session])
+  @@map("allotments_table_data")
 }

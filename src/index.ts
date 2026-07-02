@@ -4,7 +4,7 @@ import { prisma } from "./lib/prisma.js";
 async function main() {
   await prisma.$connect();
   console.log("Connected to PostgreSQL via Prisma");
-  console.log(`Database: prisma_app`);
+  console.log(`Database: neet_counselling`);
 }
 
 main()

@@ -1,5 +1,5 @@
 {
-  "name": "prisma-app",
+  "name": "neet-counselling",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",
@@ -10,7 +10,12 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
+    "sync:data": "tsx scripts/sync-counselling-data.js",
+    "sync:allotments": "tsx scripts/sync-allotments-data.js",
+    "sync:allotments:tick": "tsx scripts/sync-allotments-data.js",
+    "cron:allotments": "tsx scripts/cron-allotments.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +25,7 @@
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "dotenv": "^17.4.2",
+    "node-cron": "^4.2.1",
     "pg": "^8.22.0",
     "prisma": "^7.8.0"
   },
